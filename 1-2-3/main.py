@@ -9,24 +9,34 @@ wn.setup(width=1.0, height=1.0)
 wn.addshape(apple_image) # Make the screen aware of the new file
 
 apple = trtl.Turtle()
-
+apple.penup()
+ground_height = -200
+drawer = trtl.Turtle()
 #-----functions-----
+
 # given a turtle, set that turtle to be shaped by the image file
 def draw_apple(active_apple):
   active_apple.shape(apple_image)
+  drawer.penup()
+  drawer.hideturtle()
+  drawer.goto(-16,100)
+  draw_an_A()
   wn.update()
-def apple_down(active_apple):
-  x_coor = active_apple.xcor()
-  y_coor = active_apple.ycor()
-  active_apple.goto(x_coor, y_coor -300)
 
+def drop_apple():
+  apple.goto(apple.xcor(), ground_height)
 
+def draw_an_A():
+  drawer.color("white")
+  drawer.write("A", font=("Arial", 40, "bold"))
 
 
 
 #-----function calls-----
 draw_apple(apple)
-apple_down(apple)
+wn.onkeypress(drop_apple, "a")
+wn.listen()
+
 
 wn.bgpic("background.gif")
 wn.mainloop()
