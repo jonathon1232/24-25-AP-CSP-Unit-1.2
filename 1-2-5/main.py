@@ -5,6 +5,7 @@
 import turtle
 import time
 import random
+import leaderboard as lb
 
 delay = 0.1
 
@@ -12,15 +13,20 @@ delay = 0.1
 score = 0
 high_score = 0
 
-# Set up the screen
-wn = turtle.Screen()
-wn.title("Snake Game by @TokyoEdTech")
-wn.bgcolor("green")
-wn.setup(width=600, height=600)
-wn.tracer(0)  # Turns off the screen updates
+# Set up screen
 
+leaderboard_file_name = "leaderboard_file.txt"
+player_name = input("What is your name? ")
+wn = trtl.Screen()
+wn.bgcolor("black")
+wn.setup(width=600, height=600)
+wn.tracer(0)
+
+
+
+#SETUP TURTLES
 # Snake head
-head = turtle.Turtle()
+head = trtl.Turtle()
 head.speed(0)
 head.shape("square")
 head.color("black")
@@ -29,7 +35,7 @@ head.goto(0, 0)
 head.direction = "stop"
 
 # Snake food
-food = turtle.Turtle()
+food = trtl.Turtle()
 food.speed(0)
 food.shape("circle")
 food.color("red")
@@ -38,15 +44,15 @@ food.goto(0, 100)
 
 segments = []
 
-# Pen
-pen = turtle.Turtle()
+# Pen for writing score
+pen = trtl.Turtle()
 pen.speed(0)
 pen.shape("square")
 pen.color("white")
 pen.penup()
 pen.hideturtle()
 pen.goto(0, 260)
-pen.write("Score: 0  High Score: 0", align="center", font=("Courier", 24, "normal"))
+pen.write("Score: 0  High Score: 0", align="center", font=("Arial", 24, "normal"))
 
 
 # Functions
@@ -87,7 +93,20 @@ def move():
         x = head.xcor()
         head.setx(x + 20)
 
+def manage_leaderboard():
+    global score
 
+    # get the names and scores from the leaderboard file
+    leader_names_list = lb.get_names(leaderboard_file_name)
+    leader_scores_list = lb.get_scores(leaderboard_file_name)
+
+    # show the leaderboard with or without the current player
+    if (len(leader_scores_list) < 5 or score >= leader_scores_list[4]):
+        lb.update_leaderboard(leaderboard_file_name, leader_names_list, leader_scores_list, player_name, score)
+        lb.draw_leaderboard(True, leader_names_list, leader_scores_list, spot, score)
+
+    else:
+        lb.draw_leaderboard(False, leader_names_list, leader_scores_list, spot, score)
 # Keyboard bindings
 wn.listen()
 wn.onkeypress(go_up, "w")
@@ -109,7 +128,9 @@ while True:
         for segment in segments:
             segment.goto(1000, 1000)
 
-        # Clear the segments list
+        # Remove snake segment
+
+
         segments.clear()
 
         # Reset the score
@@ -120,16 +141,17 @@ while True:
 
         pen.clear()
         pen.write("Score: {}  High Score: {}".format(score, high_score), align="center", font=("Courier", 24, "normal"))
+        manage_leaderboard()
 
-        # Check for a collision with the food
+
+    # Check for a collision with the food to add score
     if head.distance(food) < 20:
-        # Move the food to a random spot
         x = random.randint(-290, 290)
         y = random.randint(-290, 290)
         food.goto(x, y)
 
         # Add a segment
-        new_segment = turtle.Turtle()
+        new_segment = trtl.Turtle()
         new_segment.speed(0)
         new_segment.shape("square")
         new_segment.color("white")
@@ -162,7 +184,10 @@ while True:
 
     move()
 
-    # Check for head collision with the body segments
+
+
+
+    # Check for head hitting the body, losing the game and reseting everything
     for segment in segments:
         if segment.distance(head) < 20:
             time.sleep(1)
@@ -186,6 +211,7 @@ while True:
             pen.clear()
             pen.write("Score: {}  High Score: {}".format(score, high_score), align="center",
                       font=("Courier", 24, "normal"))
+            manage_leaderboard()
 
     time.sleep(delay)
 

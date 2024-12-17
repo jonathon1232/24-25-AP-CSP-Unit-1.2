@@ -1,0 +1,5 @@
+temp1,29
+temp2,31
+temp3,6
+temp4,15
+Jonathon,42
