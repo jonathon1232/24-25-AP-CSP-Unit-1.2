@@ -1,28 +1,21 @@
 import random as rand
 
+#Start Message
+print("Hello! This game is inspired by the game 'Shut The Box'. The goal is to roll 2 random numbers, and either combine or use them separately to remove certain values from the overall 'box' If you roll two numbers and they have already been used separately, and used if they were combined, you lose and need to restart.")
+
+#Lists
 dice_numbers_list1 = ["1", "2", "3", "4", "5", "6"]
 dice_numbers_list2 = ["1", "2", "3", "4", "5", "6"]
 total_values_list = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
 
-roll1 = rand.randint(0, len(dice_numbers_list1))
-roll2 = rand.randint(0, len(dice_numbers_list1))
-
+#Random Dice Rolls
+roll1 = dice_numbers_list1.pop(rand.randint(0, 5))
+roll2 = dice_numbers_list2.pop(rand.randint(0, 5))
 
 print(roll1)
 print(roll2)
 
-# cited from https://www.bing.com/search?pglt=43&q=how+to+rempove+random+vaues+from+a+list+in+python&cvid=36bf1af3854a42f081b2d6f6106f2c41&gs_lcrp=EgRlZGdlKgYIABBFGDkyBggAEEUYOdIBCTEyMTE2ajBqMagCCLACAQ&FORM=ANSPA1&PC=U531
-# term: how to rempove random vaues from a list in python
-def remove_random_values():
-    for num in range(6):
-        value_to_remove = rand.choice(dice_numbers_list1)
-        dice_numbers_list1.remove(value_to_remove)
-        dice_numbers_list1.remove(value_to_remove)
-# End Citation
-
-
+#Asking if your roll should be used combined or not
 choice = int(input("Do you want to have the numbers separate or combined? Type 1 for Sep, 2 for Comb"))
-
 if choice == 1:
-    remove_random_values()
-    print(dice_numbers_list1)
+    print("Ok, both of those numbers have been eliminated from the overall 12 numbers")
