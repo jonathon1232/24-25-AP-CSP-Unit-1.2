@@ -42,17 +42,21 @@ while True:
             total_values_list.remove(str(roll2))
             print(total_values_list)
         else:
-            print("One of those numbers has been used already! You lose and need to restart!)")
+            print("One of those numbers has been used already! You lose!)")
+            break
+
+
 
     #Making both numbers be added into a sum, and the sum is taken out of the list if you chose combined.
     elif choice == "2":
         combo_roll = roll1 + roll2
         if is_valid_choice(str(combo_roll)):
-            print(f"Ok,the combined number {combo_roll}have been eliminated from the overall 12 numbers")
+            print("Ok,the combined number have been eliminated from the overall 12 numbers")
             total_values_list.remove(str(combo_roll))
             print("Remaining values:", total_values_list)
         else:
-            print("The combined number {combo_roll} has been used already!")
+            print("The combined number has been used already! You lose!")
+            break
     #failsafe incase you don't pick one of the numbers.
     else:
         print("Please type '1' or '2'")
